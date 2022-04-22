@@ -138,3 +138,7 @@ class LiuParticle:
         self.velocity = self.w * self.velocity \
                                + self.c1 * r1 * (self.pbest_position - self.position) \
                                + self.c2 * r2 * (gbest_position - self.position)
+    def move(self):
+        self.position = self.position + self.velocity
+        if self.bounds:
+            self.position = torch.clamp(self.position, self.bounds[0], self.bounds[1])
