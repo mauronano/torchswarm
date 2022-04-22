@@ -138,6 +138,12 @@ class LiuParticle:
         self.velocity = self.w * self.velocity \
                                + self.c1 * r1 * (self.pbest_position - self.position) \
                                + self.c2 * r2 * (gbest_position - self.position)
+        
+        swarm_parameters = SwarmParameters()
+        swarm_parameters.r1 = r1
+        swarm_parameters.r2 = r2      
+        return swarm_parameters
+    
     def move(self):
         self.position = self.position + self.velocity
         if self.bounds:
