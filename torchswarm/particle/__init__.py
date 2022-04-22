@@ -25,8 +25,8 @@ class Particle:
         self.pbest_value = torch.Tensor([float("inf")]).to(self.device)
 
     def update_velocity(self, gbest_position):
-        r1 = torch.rand(1).to(self.device)
-        r2 = torch.rand(1).to(self.device)
+        r1 = torch.rand(self.dimensions, device = self.device)
+        r2 = torch.rand(self.dimensions, device = self.device)
         for i in range(0, self.dimensions):
             self.velocity[i] = self.w * self.velocity[i] \
                                + self.c1 * r1 * (self.pbest_position[i] - self.position[i]) \
