@@ -133,8 +133,8 @@ class LiuParticle:
         self.pbest_value = torch.Tensor([float("inf")]).to(self.device)
 
     def update_velocity(self, gbest_position):
-        r1 = torch.rand(1).to(self.device)
-        r2 = torch.rand(1).to(self.device)
+        r1 = torch.rand(self.dimensions, device = self.device)
+        r2 = torch.rand(self.dimensions, device = self.device)
         self.velocity = self.w * self.velocity \
                                + self.c1 * r1 * (self.pbest_position - self.position) \
                                + self.c2 * r2 * (gbest_position - self.position)
