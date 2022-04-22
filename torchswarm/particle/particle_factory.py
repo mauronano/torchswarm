@@ -10,3 +10,5 @@ def get_particle_instance(swarm_optimizer_type):
         return ExponentiallyWeightedMomentumParticle
     if swarm_optimizer_type == "rotated_exponentially_weighted":
         return RotatedEWMParticle
+    if swarm_optimizer_type == "Liu":
+        return LiuParticle
