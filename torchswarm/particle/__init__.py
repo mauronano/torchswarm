@@ -111,3 +111,30 @@ class RotatedEWMParticle(ExponentiallyWeightedMomentumParticle):
         swarm_parameters.r1 = r1
         swarm_parameters.r2 = r2
         return swarm_parameters
+    
+    
+class LiuParticle:
+    def __init__(self, dimensions, w=0.45, c1=1.55, c2=1.55, **kwargs):
+        self.dimensions = dimensions
+        self.w = w
+        self.c1 = c1
+        self.c2 = c2
+        classes = kwargs.get("classes") if kwargs.get("classes") else 1
+        self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
+        self.device = kwargs.get("device") if kwargs.get("device") else self.device
+        if kwargs.get("bounds"):
+            self.bounds = kwargs.get("bounds")
+            self.position = (self.bounds[0] - self.bounds[1]) * torch.rand(dimensions, classes).to(self.device) + self.bounds[1]
+        else:
+            self.bounds = None
+            self.position = torch.rand(dimensions, classes).to(self.device)
+        self.velocity = torch.zeros((dimensions, classes)).to(self.device)
+        self.pbest_position = self.position
+        self.pbest_value = torch.Tensor([float("inf")]).to(self.device)
+
+    def update_velocity(self, gbest_position):
+        r1 = torch.rand(1).to(self.device)
+        r2 = torch.rand(1).to(self.device)
+        self.velocity = self.w * self.velocity \
+                               + self.c1 * r1 * (self.pbest_position - self.position) \
+                               + self.c2 * r2 * (gbest_position - self.position)
